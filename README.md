@@ -1,6 +1,6 @@
 # как собрать
 
-1. ```git clone https://github.com/gleblagov/tagtour-events.git && cd tagtour-events```
+1. ```git clone git@github.com:gleblagov/tagtour-events.git && cd tagtour-events```
 2. ```docker compose up --build``` или ```docker compose up --build -d``` -- запустить в фоне
 
 # контейнеры
@@ -60,3 +60,7 @@
     ]
   }
 ```
+
+# доделать
+- нормальные хттп коды и тела в ответах
+- вынести всё чувствительное в конфиг файл и .env
