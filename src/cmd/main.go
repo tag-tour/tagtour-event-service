@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log"
+
+	"github.com/gleblagov/tagtour-events/config"
 	"github.com/gleblagov/tagtour-events/data"
 	"github.com/gleblagov/tagtour-events/handlers"
 	"github.com/labstack/echo"
@@ -8,9 +11,13 @@ import (
 
 func main() {
 	app := echo.New()
-	postgres, err := data.NewPostgreStorage("admin", "admin", "events")
+	config, err := config.NewStorageConfig()
 	if err != nil {
-		panic(err)
+		log.Fatalf("error while reading config: %v\n", err)
+	}
+	postgres, err := data.NewPostgreStorage(config)
+	if err != nil {
+		log.Fatalf("error while connecting to db: %v\n", err)
 	}
 	handler := handlers.NewEventsHandler(postgres)
 

@@ -1,13 +1,22 @@
-# как собрать
+# как поднять
 
 1. ```git clone git@github.com:gleblagov/tagtour-events.git && cd tagtour-events```
-2. ```docker compose up --build``` или ```docker compose up --build -d``` -- запустить в фоне
-3. ```odcker compose down``` -- потушить
+2. поменять данные в:
+ - ```.env-pgadmin```
+ - ```.env-postgres```
+ - ```config.yaml```
+3. ```docker compose up --build``` или ```docker compose up --build -d``` -- запустить в фоне
+4. ```odcker compose down``` -- потушить
+
+## параметры в конфиге
+- ```username``` -- имя юзера от которого подключаться постгрес
+- ```password``` -- пароль юзера
+- ```db_name``` -- название бд, к которой подключаться
 
 # контейнеры
 1. ```localhost:2000``` -- api
 2. ```localhost:2001``` -- pg-admin (логин ```admin@admin.admin``` пароль ```admin``` хост ```postgres```)
-3. ```localhost:5432``` -- торчит постгрес
+3. ```localhost:5432``` -- торчит постгрес (вольюм примонтирован в ./postgres)
 
 # ручки 
 
@@ -64,4 +73,4 @@
 ```
 
 # доделать
-- вынести всё чувствительное в конфиг файл и .env
+- логи

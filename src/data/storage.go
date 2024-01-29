@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/gleblagov/tagtour-events/config"
 	"github.com/lib/pq"
 )
 
@@ -21,8 +22,8 @@ type postgreStorage struct {
 	db *sql.DB
 }
 
-func NewPostgreStorage(user string, password string, dbname string) (*postgreStorage, error) {
-	connectionString := fmt.Sprintf("user=%s dbname=%s password=%s host=postgres sslmode=disable", user, dbname, password)
+func NewPostgreStorage(c *config.StorageConfig) (*postgreStorage, error) {
+	connectionString := fmt.Sprintf("user=%s dbname=%s password=%s host=postgres sslmode=disable", c.User, c.DbName, c.Password)
 	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
 		return nil, err
