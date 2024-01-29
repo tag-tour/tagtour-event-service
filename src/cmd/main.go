@@ -17,6 +17,7 @@ func main() {
 	app.GET("/version", handler.HealthCheckVersion)
 
 	app.GET("/", handler.GetAllEvents)
+	app.GET("/:id", handler.GetEventById)
 	app.POST("/", handler.CreateEvent)
 	app.PATCH("/:id", handler.UpdateEvent)
 	app.DELETE("/:id", handler.DeleteEvent)

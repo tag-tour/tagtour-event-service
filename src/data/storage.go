@@ -10,9 +10,11 @@ import (
 type Storage interface {
 	CreateEvent(e *Event) (int32, error)
 	GetAllEvents() ([]Event, error)
+	GetEventById(id int32) (*Event, error)
 	UpdateEvent(id int32, b *EventBase) (*Event, error)
 	DeleteEvent(id int32) error
 	CheckVersion() (string, error)
+	EventExists(id int32) (bool, error)
 }
 
 type postgreStorage struct {
@@ -88,6 +90,7 @@ func (s *postgreStorage) CreateEvent(e *Event) (int32, error) {
 	if err != nil {
 		return -1, err
 	}
+	defer rows.Close()
 	for rows.Next() {
 		if err := rows.Scan(&id); err != nil {
 			return -1, err
@@ -104,6 +107,7 @@ func (s *postgreStorage) GetAllEvents() ([]Event, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 	for rows.Next() {
 		event := Event{}
 		var members pq.Int32Array
@@ -122,6 +126,32 @@ func (s *postgreStorage) GetAllEvents() ([]Event, error) {
 		events = append(events, event)
 	}
 	return events, nil
+}
+
+func (s *postgreStorage) GetEventById(id int32) (*Event, error) {
+	q := `SELECT * FROM events WHERE id = $1`
+	e := new(Event)
+	rows, err := s.db.Query(q, id)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var members pq.Int32Array
+		if err := rows.Scan(&e.Id,
+			&e.Title,
+			&e.Likes,
+			pq.Array(&e.Media),
+			&e.Author,
+			&e.CreatedAt,
+			&e.Date,
+			&e.Description,
+			&members); err != nil {
+			return nil, err
+		}
+		e.Members = []int32(members)
+	}
+	return e, nil
 }
 
 func (s *postgreStorage) UpdateEvent(id int32, b *EventBase) (*Event, error) {
@@ -146,6 +176,7 @@ func (s *postgreStorage) UpdateEvent(id int32, b *EventBase) (*Event, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 	for rows.Next() {
 		var members pq.Int32Array
 		if err := rows.Scan(&e.Id,
@@ -171,4 +202,15 @@ func (s *postgreStorage) DeleteEvent(id int32) error {
 		return err
 	}
 	return nil
+}
+
+func (s *postgreStorage) EventExists(id int32) (bool, error) {
+	e, err := s.GetEventById(id)
+	if err != nil {
+		return false, err
+	}
+	if e.Id != 0 {
+		return true, nil
+	}
+	return false, nil
 }
