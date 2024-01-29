@@ -6,7 +6,7 @@
  - ```.env-postgres```
  - ```config.yaml```
 3. ```docker compose up --build``` или ```docker compose up --build -d``` -- запустить в фоне
-4. ```odcker compose down``` -- потушить
+4. ```docker compose down``` -- потушить
 
 ## параметры в конфиге
 - ```username``` -- имя юзера от которого подключаться постгрес
