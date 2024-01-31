@@ -31,5 +31,7 @@ services:
       - .env-pgadmin 
     ports:
       - "2001:80"
+    depends_on:
+      - event-service
 
 

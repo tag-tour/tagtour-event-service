@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gleblagov/tagtour-events/data"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 type eventsHandler struct {
