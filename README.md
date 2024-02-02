@@ -15,8 +15,7 @@
 
 # контейнеры
 1. ```localhost:2000``` -- api
-2. ```localhost:2001``` -- pg-admin (логин ```admin@admin.admin``` пароль ```admin``` хост ```postgres```)
-3. ```localhost:5432``` -- торчит постгрес (вольюм примонтирован в ./postgres)
+2. ```localhost:2001``` -- pgadmin (данные для входа в .env-pgadmin, хост ```postgres```)
 
 # ручки 
 
