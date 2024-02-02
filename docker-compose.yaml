@@ -15,8 +15,8 @@ services:
     image: postgres
     env_file:
       - .env-postgres
-    ports:
-      - "5432:5432"
+    expose:
+      - 8000
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "admin", "-d", "postgres"]
       interval: 5s
